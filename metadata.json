@@ -1,0 +1,5 @@
+{
+  "name": "Trading & Analytics Terminal",
+  "description": "A sophisticated market terminal desktop application featuring draggable windows, a taskbar, and a command launcher. It includes apps for price charting, order entry, position tracking, news, notes, and a 'Quant Copilot' AI assistant for market analysis.",
+  "requestFramePermissions": []
+}
