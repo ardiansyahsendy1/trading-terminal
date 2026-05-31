@@ -1,20 +1,154 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Trading Terminal
 
-# Run and deploy your AI Studio app
+Open-source AI-assisted trading terminal built with TypeScript and Vite.
 
-This contains everything you need to run your app locally.
+Trading Terminal is an early-stage open-source project for building a modern market dashboard for developers, researchers, and retail traders. The goal is to provide a transparent, customizable, and extensible terminal for monitoring markets, managing watchlists, reviewing portfolio data, and experimenting with AI-assisted trading insights.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1xfuN7arLDtNKf2p-Rv63_wmRMfDv3CIN
+> Status: early-stage public repository. The project is under active development and is being prepared for broader contributor participation.
 
-## Run Locally
+## Vision
 
-**Prerequisites:**  Node.js
+Most trading dashboards are closed, expensive, or difficult to customize. Trading Terminal aims to become a lightweight open-source alternative that developers can inspect, modify, and extend based on their own research and workflow.
 
+The long-term vision is to support:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- Market data dashboards
+- Custom watchlists
+- Portfolio tracking
+- AI-assisted market summaries
+- Alerts and notifications
+- Backtesting workflows
+- Research-friendly trading analytics
+- Secure and maintainable open-source development practices
+
+## Planned Features
+
+### 1. Market Dashboard
+
+A clean dashboard for monitoring selected assets, price movements, market conditions, and important trading signals.
+
+### 2. Watchlist
+
+A customizable watchlist for tracking stocks, crypto assets, forex pairs, commodities, or other supported instruments.
+
+### 3. Portfolio Tracker
+
+A simple portfolio view to help users monitor holdings, allocation, performance, and historical changes.
+
+### 4. AI Insight Layer
+
+AI-assisted summaries for market movement, watchlist changes, portfolio notes, and research workflows.
+
+### 5. Alerts
+
+Configurable alerts for price levels, percentage movement, volatility, or custom trading conditions.
+
+### 6. Backtesting
+
+A future module for testing trading ideas against historical data before applying them in real market conditions.
+
+## Roadmap
+
+### Phase 1 - Project Foundation
+
+- [x] Replace starter-template content with project-specific documentation
+- [x] Add MIT License
+- [ ] Define public roadmap
+- [ ] Add issue templates
+- [ ] Add contribution guidelines
+- [ ] Add basic testing workflow
+
+### Phase 2 - Core Trading Interface
+
+- [ ] Build market dashboard layout
+- [ ] Add asset watchlist
+- [ ] Add basic portfolio tracker
+- [ ] Add market data integration
+- [ ] Add responsive UI improvements
+
+### Phase 3 - AI-Assisted Workflow
+
+- [ ] Add AI-generated market summaries
+- [ ] Add AI-assisted portfolio notes
+- [ ] Add natural-language research prompts
+- [ ] Add documentation automation
+- [ ] Add maintainer automation for issue triage and changelog drafting
+
+### Phase 4 - Reliability and Security
+
+- [ ] Add unit tests
+- [ ] Add end-to-end tests
+- [ ] Add security review workflow
+- [ ] Add dependency scanning
+- [ ] Add release checklist
+
+### Phase 5 - Advanced Trading Research
+
+- [ ] Add alerting system
+- [ ] Add backtesting module
+- [ ] Add strategy comparison tools
+- [ ] Add exportable reports
+- [ ] Improve developer plugin architecture
+
+## Tech Stack
+
+- TypeScript
+- Vite
+- React
+- Node.js
+
+## Getting Started
+
+### Prerequisites
+
+Install Node.js and npm.
+
+### Installation
+
+```bash
+npm install
+```
+
+### Run Locally
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+## Open Source Goals
+
+This repository is being developed as an open-source project with the following goals:
+
+- Make trading dashboard development more transparent
+- Help developers learn how trading tools can be structured
+- Create a foundation for AI-assisted market research workflows
+- Improve documentation, testing, and release discipline
+- Build a contributor-friendly repository over time
+
+## Contributing
+
+Contributions are welcome as the project matures. Good first areas include documentation, UI improvements, market data integration, testing, and security review.
+
+Suggested contribution areas:
+
+- Improve README and documentation
+- Add issue templates
+- Add tests
+- Improve dashboard components
+- Add market data providers
+- Review security practices
+- Improve developer experience
+
+## Disclaimer
+
+This project is for educational, research, and software development purposes only. It is not financial advice, investment advice, or a recommendation to buy or sell any asset. Users are responsible for their own research and risk management.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
