@@ -46,9 +46,15 @@ Goal: improve confidence for contributors and users before expanding integration
 
 - [ ] Expand unit test coverage for trading calculations and UI workflows
 - [ ] Add end-to-end smoke tests for the terminal
-- [ ] Add dependency scanning
-- [ ] Add a pull request security checklist
+- [x] Add dependency scanning
+- [x] Add a pull request security checklist
 - [ ] Add a release checklist
+
+Implementation notes:
+
+- The `Security` GitHub Actions workflow runs dependency audit, pull request dependency review, and secret scanning.
+- API key handling and local environment practices are documented in `docs/security.md`.
+- `.env`, `.env.*`, and `*.local` files are ignored; `.env.example` remains committed as the placeholder template.
 
 ## Phase 5 - Advanced Trading Research
 

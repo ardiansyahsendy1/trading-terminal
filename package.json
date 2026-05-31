@@ -7,6 +7,9 @@
     "dev": "vite",
     "test": "vitest run",
     "test:watch": "vitest",
+    "security:audit": "npm audit --audit-level=moderate",
+    "security:secrets": "node scripts/security-secret-scan.mjs",
+    "security:check": "npm run security:secrets && npm run security:audit",
     "build": "vite build",
     "preview": "vite preview"
   },

@@ -31,6 +31,12 @@ Run tests:
 npm test
 ```
 
+Run security checks:
+
+```bash
+npm run security:check
+```
+
 Build the app:
 
 ```bash
@@ -44,6 +50,8 @@ npm run build
 - Include tests for logic changes.
 - Update documentation when behavior, setup, or configuration changes.
 - Do not commit secrets, API keys, tokens, or private account data.
+- Use `.env.local` for local secrets and keep `.env.example` limited to placeholders.
+- Review [docs/security.md](docs/security.md) before adding dependencies, API integrations, or secret-backed workflows.
 - Keep trading and AI output framed as educational and research-oriented.
 
 ## Issue Guidelines

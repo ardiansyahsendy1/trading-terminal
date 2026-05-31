@@ -80,7 +80,7 @@ See [ROADMAP.md](ROADMAP.md) for the public project roadmap and contribution pri
 
 - [ ] Add unit tests
 - [ ] Add end-to-end tests
-- [ ] Add security review workflow
+- [x] Add security review workflow
 - [ ] Add dependency scanning
 - [ ] Add release checklist
 
@@ -134,6 +134,16 @@ npm test
 The current dashboard uses CoinGecko public market data for crypto quotes. Local development routes browser requests through the Vite proxy at `/api/coingecko/*` to avoid CORS issues while keeping the client free of API keys.
 
 If the provider is unavailable or rate-limited, the dashboard keeps the interface usable with fallback sample prices and shows a data warning.
+
+## Security
+
+See [docs/security.md](docs/security.md) for the repository security workflow, dependency audit commands, pull request checklist expectations, secret scanning, and safe API key handling.
+
+Run the security checks locally:
+
+```bash
+npm run security:check
+```
 
 ## Open Source Goals
 
