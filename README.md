@@ -129,6 +129,12 @@ npm run build
 npm test
 ```
 
+Run end-to-end tests:
+
+```bash
+npm run test:e2e
+```
+
 ## Market Data
 
 The current dashboard uses CoinGecko public market data for crypto quotes. Local development routes browser requests through the Vite proxy at `/api/coingecko/*` to avoid CORS issues while keeping the client free of API keys.
@@ -144,6 +150,10 @@ Run the security checks locally:
 ```bash
 npm run security:check
 ```
+
+## Release Checklist
+
+See [docs/release-checklist.md](docs/release-checklist.md) for the local, security, browser, and CI gates to complete before tagging or publishing a release.
 
 ## Open Source Goals
 

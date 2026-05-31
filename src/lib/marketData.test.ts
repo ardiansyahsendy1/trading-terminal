@@ -43,4 +43,30 @@ describe('market data mapping', () => {
       },
     ]);
   });
+
+  it('skips unsupported or missing prices from provider payloads', () => {
+    const quotes = mapCoinGeckoResponse(
+      {
+        bitcoin: {
+          usd_24h_change: 1.23,
+          usd_24h_vol: 123456,
+        },
+        ethereum: {
+          usd: 2000,
+          usd_24h_change: null,
+          usd_24h_vol: null,
+        },
+      },
+      ASSET_UNIVERSE.slice(0, 2),
+    );
+
+    expect(quotes).toEqual([
+      expect.objectContaining({
+        id: 'ethereum',
+        price: 2000,
+        change24h: 0,
+        volume24h: 0,
+      }),
+    ]);
+  });
 });

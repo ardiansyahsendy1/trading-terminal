@@ -7,6 +7,7 @@
     "dev": "vite",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "security:audit": "npm audit --audit-level=moderate",
     "security:secrets": "node scripts/security-secret-scan.mjs",
     "security:check": "npm run security:secrets && npm run security:audit",
@@ -19,9 +20,13 @@
     "recharts": "^3.3.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/vite": "^4.3.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "jsdom": "^29.1.1",
     "tailwindcss": "^4.3.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",

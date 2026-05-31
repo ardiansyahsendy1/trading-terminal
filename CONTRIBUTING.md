@@ -29,6 +29,7 @@ Run tests:
 
 ```bash
 npm test
+npm run test:e2e
 ```
 
 Run security checks:
@@ -52,6 +53,7 @@ npm run build
 - Do not commit secrets, API keys, tokens, or private account data.
 - Use `.env.local` for local secrets and keep `.env.example` limited to placeholders.
 - Review [docs/security.md](docs/security.md) before adding dependencies, API integrations, or secret-backed workflows.
+- Run the [release checklist](docs/release-checklist.md) before tagging or publishing.
 - Keep trading and AI output framed as educational and research-oriented.
 
 ## Issue Guidelines

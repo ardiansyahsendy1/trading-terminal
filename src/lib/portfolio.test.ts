@@ -51,4 +51,21 @@ describe('portfolio model', () => {
     expect(updated).toEqual([{ assetId: 'bitcoin', quantity: 0.3, averageCost: 55000 }]);
     expect(removed).toEqual([]);
   });
+
+  it('ignores unknown assets and zero-quantity holdings in summaries', () => {
+    const summary = buildPortfolioSummary(
+      [
+        { assetId: 'unknown', quantity: 10, averageCost: 1 },
+        { assetId: 'bitcoin', quantity: 0, averageCost: 60000 },
+      ],
+      quoteMap,
+    );
+
+    expect(summary).toEqual({
+      rows: [],
+      totalValue: 0,
+      totalCost: 0,
+      totalPnl: 0,
+    });
+  });
 });

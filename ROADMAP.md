@@ -44,17 +44,20 @@ Goal: make AI features useful for research while keeping user expectations clear
 
 Goal: improve confidence for contributors and users before expanding integrations.
 
-- [ ] Expand unit test coverage for trading calculations and UI workflows
-- [ ] Add end-to-end smoke tests for the terminal
+- [x] Expand unit test coverage for trading calculations and UI workflows
+- [x] Add end-to-end smoke tests for the terminal
 - [x] Add dependency scanning
 - [x] Add a pull request security checklist
-- [ ] Add a release checklist
+- [x] Add a release checklist
 
 Implementation notes:
 
 - The `Security` GitHub Actions workflow runs dependency audit, pull request dependency review, and secret scanning.
 - API key handling and local environment practices are documented in `docs/security.md`.
 - `.env`, `.env.*`, and `*.local` files are ignored; `.env.example` remains committed as the placeholder template.
+- Unit tests cover market data mapping and portfolio calculations.
+- Playwright end-to-end tests cover dashboard rendering, holding updates, and mobile overflow.
+- `docs/release-checklist.md` defines release scope, local verification, security review, browser smoke test, CI, and tagging gates.
 
 ## Phase 5 - Advanced Trading Research
 
