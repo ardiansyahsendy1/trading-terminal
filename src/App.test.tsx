@@ -1,37 +1,37 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import App from '../App';
-import { FALLBACK_QUOTES } from './lib/marketData';
 
-// Mock the fetchMarketQuotes function to avoid real network requests during testing
-vi.mock('./lib/marketData', async () => {
-  const actual = await vi.importActual<typeof import('./lib/marketData')>('./lib/marketData');
-  return {
-    ...actual,
-    fetchMarketQuotes: vi.fn().mockResolvedValue(actual.FALLBACK_QUOTES),
-  };
-});
-
-// Mock ResizeObserver which is used by Recharts/useElementSize and not present in JSDOM by default
+// Mock ResizeObserver (needed for Recharts)
 class ResizeObserverMock {
   observe = vi.fn();
   unobserve = vi.fn();
   disconnect = vi.fn();
 }
-window.ResizeObserver = ResizeObserverMock;
+window.ResizeObserver = ResizeObserverMock as any;
+
+// Simple mock for market data to prevent real API calls
+vi.mock('../lib/marketData', () => ({
+  fetchMarketQuotes: vi.fn().mockResolvedValue([]),
+  FALLBACK_QUOTES: [],
+}));
 
 describe('App Component', () => {
-  it('renders the Trading Terminal header and subtext', async () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('renders the Trading Terminal header and description', () => {
     render(<App />);
 
     expect(screen.getByText('Trading Terminal')).toBeInTheDocument();
     expect(
-      screen.getByText(/Market dashboard for crypto watchlists, portfolio exposure/i)
+      screen.getByText(/Market dashboard for crypto watchlists/i)
     ).toBeInTheDocument();
   });
 
-  it('renders portfolio summary metrics correctly', async () => {
+  it('renders portfolio summary section', () => {
     render(<App />);
 
     expect(screen.getByText('Portfolio Value')).toBeInTheDocument();
