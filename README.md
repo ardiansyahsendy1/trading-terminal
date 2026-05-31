@@ -123,11 +123,23 @@ npm run dev
 npm run build
 ```
 
-### Test
+### Running Tests
+
+We use **[Vitest](https://vitest.dev/)** for testing, along with **React Testing Library** and **JSDOM** to test React components in a simulated browser environment.
+
+#### Test Commands
 
 ```bash
+# Run all tests once
 npm test
+
+# Run tests in watch mode (recommended during development)
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
 ```
+
 
 ## Market Data
 
