@@ -3,14 +3,14 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { ComposedChart, Line, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { calculateEMA, calculateSMA, type IndicatorDataPoint } from './src/lib/indicators';
 
 // --- TYPES & INTERFACES ---
-type ChartDataType = {
+type ChartDataType = IndicatorDataPoint & {
   time: number;
   open: number;
   high: number;
   low: number;
-  close: number;
   sma?: number;
   ema?: number;
   csv?: number;
@@ -75,29 +75,6 @@ const AppIcon = ({ appId }: { appId: string }) => {
 const generateRandomWalk = (startPrice: number): number => {
   const change = (Math.random() - 0.5) * 2; // -1 to 1
   return Math.max(10, startPrice + change); // Ensure price doesn't go below 10
-};
-
-const calculateSMA = (data: ChartDataType[], period: number): (number | undefined)[] => {
-  if (period > data.length) return [];
-  const result = Array(period - 1).fill(undefined);
-  for (let i = period - 1; i < data.length; i++) {
-    const sum = data.slice(i - period + 1, i + 1).reduce((acc, val) => acc + val.close, 0);
-    result.push(sum / period);
-  }
-  return result;
-};
-
-const calculateEMA = (data: ChartDataType[], period: number): (number | undefined)[] => {
-    if (period > data.length) return [];
-    const k = 2 / (period + 1);
-    const result: (number | undefined)[] = Array(period-1).fill(undefined);
-    let ema = data.slice(0, period).reduce((acc, val) => acc + val.close, 0) / period;
-    result.push(ema);
-    for (let i = period; i < data.length; i++) {
-        ema = (data[i].close - ema) * k + ema;
-        result.push(ema);
-    }
-    return result;
 };
 
 // --- CUSTOM HOOKS ---

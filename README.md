@@ -49,14 +49,16 @@ A future module for testing trading ideas against historical data before applyin
 
 ## Roadmap
 
+See [ROADMAP.md](ROADMAP.md) for the public project roadmap and contribution priorities.
+
 ### Phase 1 - Project Foundation
 
 - [x] Replace starter-template content with project-specific documentation
 - [x] Add MIT License
-- [ ] Define public roadmap
-- [ ] Add issue templates
-- [ ] Add contribution guidelines
-- [ ] Add basic testing workflow
+- [x] Define public roadmap
+- [x] Add issue templates
+- [x] Add contribution guidelines
+- [x] Add basic testing workflow
 
 ### Phase 2 - Core Trading Interface
 
@@ -121,6 +123,12 @@ npm run dev
 npm run build
 ```
 
+### Test
+
+```bash
+npm test
+```
+
 ## Open Source Goals
 
 This repository is being developed as an open-source project with the following goals:
@@ -134,6 +142,8 @@ This repository is being developed as an open-source project with the following 
 ## Contributing
 
 Contributions are welcome as the project matures. Good first areas include documentation, UI improvements, market data integration, testing, and security review.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, issue, and pull request guidelines.
 
 Suggested contribution areas:
 
