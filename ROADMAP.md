@@ -17,11 +17,18 @@ Goal: make the repository understandable, contributor-friendly, and safe to exte
 
 Goal: turn the current terminal prototype into a clearer market dashboard foundation.
 
-- [ ] Review the current windowed terminal layout and document the intended user flows
-- [ ] Add a dedicated watchlist surface for tracked instruments
-- [ ] Add a basic portfolio tracker model and view
-- [ ] Create a reusable market data service boundary
-- [ ] Improve responsive behavior for smaller screens
+- [x] Replace the windowed prototype first screen with a dashboard-first trading layout
+- [x] Add a dedicated watchlist surface for tracked instruments
+- [x] Add a basic portfolio tracker model and view
+- [x] Create a reusable market data service boundary
+- [x] Improve responsive behavior for smaller screens
+
+Implementation notes:
+
+- The first integration uses CoinGecko public crypto quotes through a Vite proxy.
+- Watchlist selection and portfolio holdings are persisted in local storage.
+- The portfolio model is covered by unit tests for value, cost basis, P/L, allocation, and holding upserts.
+- The dashboard is verified at desktop and mobile viewport widths.
 
 ## Phase 3 - AI-Assisted Workflow
 

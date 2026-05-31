@@ -1,19 +1,27 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
+const coingeckoProxy = {
+  '/api/coingecko': {
+    target: 'https://api.coingecko.com',
+    changeOrigin: true,
+    rewrite: (requestPath: string) => requestPath.replace(/^\/api\/coingecko/, '/api/v3'),
+  },
+};
+
+export default defineConfig(() => {
     return {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        proxy: coingeckoProxy,
       },
-      plugins: [react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      preview: {
+        proxy: coingeckoProxy,
       },
+      plugins: [react(), tailwindcss()],
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),

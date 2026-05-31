@@ -62,11 +62,11 @@ See [ROADMAP.md](ROADMAP.md) for the public project roadmap and contribution pri
 
 ### Phase 2 - Core Trading Interface
 
-- [ ] Build market dashboard layout
-- [ ] Add asset watchlist
-- [ ] Add basic portfolio tracker
-- [ ] Add market data integration
-- [ ] Add responsive UI improvements
+- [x] Build market dashboard layout
+- [x] Add asset watchlist
+- [x] Add basic portfolio tracker
+- [x] Add market data integration
+- [x] Add responsive UI improvements
 
 ### Phase 3 - AI-Assisted Workflow
 
@@ -128,6 +128,12 @@ npm run build
 ```bash
 npm test
 ```
+
+## Market Data
+
+The current dashboard uses CoinGecko public market data for crypto quotes. Local development routes browser requests through the Vite proxy at `/api/coingecko/*` to avoid CORS issues while keeping the client free of API keys.
+
+If the provider is unavailable or rate-limited, the dashboard keeps the interface usable with fallback sample prices and shows a data warning.
 
 ## Open Source Goals
 
