@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import App from '../App';
 
-// Mock ResizeObserver (needed for Recharts)
+// Mock ResizeObserver (required for Recharts)
 class ResizeObserverMock {
   observe = vi.fn();
   unobserve = vi.fn();
@@ -11,7 +11,7 @@ class ResizeObserverMock {
 }
 window.ResizeObserver = ResizeObserverMock as any;
 
-// Simple mock for market data to prevent real API calls
+// Mock market data to prevent real API calls
 vi.mock('../lib/marketData', () => ({
   fetchMarketQuotes: vi.fn().mockResolvedValue([]),
   FALLBACK_QUOTES: [],
@@ -22,21 +22,27 @@ describe('App Component', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the Trading Terminal header and description', () => {
+  it('renders the Trading Terminal header and description', async () => {
     render(<App />);
 
-    expect(screen.getByText('Trading Terminal')).toBeInTheDocument();
+    // Wait for any async updates
+    await waitFor(() => {
+      expect(screen.getByText('Trading Terminal')).toBeInTheDocument();
+    });
+
     expect(
       screen.getByText(/Market dashboard for crypto watchlists/i)
     ).toBeInTheDocument();
   });
 
-  it('renders portfolio summary section', () => {
+  it('renders portfolio summary metrics', async () => {
     render(<App />);
 
-    expect(screen.getByText('Portfolio Value')).toBeInTheDocument();
-    expect(screen.getByText('Unrealized P/L')).toBeInTheDocument();
-    expect(screen.getByText('Cost Basis')).toBeInTheDocument();
-    expect(screen.getByText('Tracked Assets')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Portfolio Value')).toBeInTheDocument();
+      expect(screen.getByText('Unrealized P/L')).toBeInTheDocument();
+      expect(screen.getByText('Cost Basis')).toBeInTheDocument();
+      expect(screen.getByText('Tracked Assets')).toBeInTheDocument();
+    });
   });
 });
