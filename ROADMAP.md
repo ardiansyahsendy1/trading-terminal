@@ -34,11 +34,18 @@ Implementation notes:
 
 Goal: make AI features useful for research while keeping user expectations clear.
 
-- [ ] Add AI-generated market summaries for selected assets
-- [ ] Add AI-assisted portfolio notes
-- [ ] Add natural-language research prompts
-- [ ] Document required API keys and safe local configuration
-- [ ] Add maintainer automation for issue triage and changelog drafting
+- [x] Add AI-generated market summaries for selected assets
+- [x] Add AI-assisted portfolio notes
+- [x] Add natural-language research prompts
+- [x] Document required API keys and safe local configuration
+- [x] Add maintainer automation for issue triage and changelog drafting
+
+Implementation notes:
+
+- The first AI workflow is local and deterministic so no private key is shipped to browser-delivered code.
+- `src/lib/aiWorkflow.ts` generates market summaries, portfolio notes, and natural-language research responses from current dashboard state.
+- `docs/ai-workflow.md` documents API key handling and future model-backed provider rules.
+- `npm run docs:ai` drafts documentation notes and `npm run maintainers:digest` drafts issue triage plus changelog text.
 
 ## Phase 4 - Reliability and Security
 

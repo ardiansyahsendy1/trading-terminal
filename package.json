@@ -11,6 +11,8 @@
     "security:audit": "npm audit --audit-level=moderate",
     "security:secrets": "node scripts/security-secret-scan.mjs",
     "security:check": "npm run security:secrets && npm run security:audit",
+    "docs:ai": "node scripts/generate-ai-docs.mjs",
+    "maintainers:digest": "node scripts/maintainer-digest.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

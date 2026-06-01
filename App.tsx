@@ -24,6 +24,11 @@ import {
   upsertHolding,
 } from './src/lib/portfolio';
 import {
+  answerResearchPrompt,
+  generateMarketSummary,
+  generatePortfolioNotes,
+} from './src/lib/aiWorkflow';
+import {
   DEFAULT_ALERTS,
   DEFAULT_PLUGINS,
   type PriceSnapshot,
@@ -142,6 +147,7 @@ const App = () => {
   const [snapshots, setSnapshots] = useState<PriceSnapshot[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [marketError, setMarketError] = useState<string | null>(null);
+  const [researchPrompt, setResearchPrompt] = useState('What should I review first?');
   const [draft, setDraft] = useState<HoldingDraft>({
     assetId: DEFAULT_WATCHLIST_IDS[0],
     quantity: 0,
@@ -161,6 +167,18 @@ const App = () => {
   const lastUpdated = useMemo(() => getLastUpdatedLabel(quotes), [quotes]);
   const alertResults = useMemo(() => evaluateAlerts(DEFAULT_ALERTS, quoteMap), [quoteMap]);
   const strategyResults = useMemo(() => runBacktest(snapshots, selectedAssetId), [selectedAssetId, snapshots]);
+  const watchlistRows = visibleAssets
+    .map((asset) => quoteMap[asset.id])
+    .filter((quote): quote is AssetQuote => Boolean(quote));
+  const marketSummary = useMemo(
+    () => generateMarketSummary(selectedQuote, watchlistRows, alertResults),
+    [alertResults, selectedQuote, watchlistRows],
+  );
+  const portfolioNotes = useMemo(() => generatePortfolioNotes(portfolio), [portfolio]);
+  const promptResponse = useMemo(
+    () => answerResearchPrompt(researchPrompt, marketSummary, portfolio, strategyResults),
+    [marketSummary, portfolio, researchPrompt, strategyResults],
+  );
   const researchReport = useMemo(
     () => exportResearchReport(selectedQuote?.symbol ?? 'Asset', portfolio, alertResults, strategyResults),
     [alertResults, portfolio, selectedQuote?.symbol, strategyResults],
@@ -208,10 +226,6 @@ const App = () => {
     time: snapshot.time,
     price: Number(snapshot[selectedAssetId] ?? selectedQuote?.price ?? 0),
   }));
-
-  const watchlistRows = visibleAssets
-    .map((asset) => quoteMap[asset.id])
-    .filter((quote): quote is AssetQuote => Boolean(quote));
 
   const toggleWatchlistAsset = (assetId: string) => {
     setWatchlistIds((current) => {
@@ -284,6 +298,46 @@ const App = () => {
             <MetricCard label="Cost Basis" value={currency.format(portfolio.totalCost)} />
             <MetricCard label="Tracked Assets" value={watchlistRows.length.toString()} />
           </div>
+
+          <section className="rounded border border-slate-800 bg-slate-900 p-4">
+            <div className="border-b border-slate-800 pb-3">
+              <h2 className="text-lg font-semibold text-white">AI Insight Layer</h2>
+            </div>
+            <div className="mt-4 grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+              <div className="rounded border border-slate-800 bg-slate-950 p-3">
+                <h3 className="text-sm font-semibold text-cyan-200">Market Summary</h3>
+                <p className="mt-2 text-sm text-white">{marketSummary.headline}</p>
+                <ul className="mt-3 grid gap-2 text-sm text-slate-300">
+                  {marketSummary.bullets.map((bullet) => (
+                    <li key={bullet}>- {bullet}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded border border-slate-800 bg-slate-950 p-3">
+                <h3 className="text-sm font-semibold text-cyan-200">Portfolio Notes</h3>
+                <div className="mt-3 grid gap-3">
+                  {portfolioNotes.map((note) => (
+                    <div key={note.title}>
+                      <div className="text-sm font-medium text-white">{note.title}</div>
+                      <p className="text-sm text-slate-400">{note.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <label className="mt-4 block text-xs uppercase text-slate-500" htmlFor="researchPrompt">
+              Research Prompt
+            </label>
+            <textarea
+              id="researchPrompt"
+              value={researchPrompt}
+              onChange={(event) => setResearchPrompt(event.target.value)}
+              className="mt-2 min-h-20 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white"
+            />
+            <div className="mt-3 rounded border border-slate-800 bg-slate-950 p-3 text-sm text-slate-300">
+              {promptResponse.answer}
+            </div>
+          </section>
 
           <section className="rounded border border-slate-800 bg-slate-900">
             <div className="flex flex-col gap-3 border-b border-slate-800 p-4 md:flex-row md:items-start md:justify-between">

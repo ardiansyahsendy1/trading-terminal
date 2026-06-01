@@ -54,6 +54,10 @@ test('renders market dashboard with mocked market data', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Trading Terminal' })).toBeVisible();
   await expect(page.getByText('Source: CoinGecko')).toBeVisible();
   await expect(page.locator('.text-xs.uppercase', { hasText: 'Portfolio Value' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'AI Insight Layer' })).toBeVisible();
+  await expect(page.getByText('Market Summary')).toBeVisible();
+  await expect(page.getByText('Portfolio Notes')).toBeVisible();
+  await expect(page.getByLabel('Research Prompt')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Portfolio Tracker' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Asset Watchlist' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Alerts' })).toBeVisible();

@@ -70,11 +70,11 @@ See [ROADMAP.md](ROADMAP.md) for the public project roadmap and contribution pri
 
 ### Phase 3 - AI-Assisted Workflow
 
-- [ ] Add AI-generated market summaries
-- [ ] Add AI-assisted portfolio notes
-- [ ] Add natural-language research prompts
-- [ ] Add documentation automation
-- [ ] Add maintainer automation for issue triage and changelog drafting
+- [x] Add AI-generated market summaries
+- [x] Add AI-assisted portfolio notes
+- [x] Add natural-language research prompts
+- [x] Add documentation automation
+- [x] Add maintainer automation for issue triage and changelog drafting
 
 ### Phase 4 - Reliability and Security
 
@@ -140,6 +140,19 @@ npm run test:e2e
 The current dashboard uses CoinGecko public market data for crypto quotes. Local development routes browser requests through the Vite proxy at `/api/coingecko/*` to avoid CORS issues while keeping the client free of API keys.
 
 If the provider is unavailable or rate-limited, the dashboard keeps the interface usable with fallback sample prices and shows a data warning.
+
+## AI-Assisted Workflow
+
+The current AI workflow is local and deterministic: it generates market summaries, portfolio notes, and natural-language research responses from current dashboard state without sending data to an external model provider.
+
+Automation drafts:
+
+```bash
+npm run docs:ai
+npm run maintainers:digest
+```
+
+See [docs/ai-workflow.md](docs/ai-workflow.md) for API key rules and future provider guidance.
 
 ## Security
 

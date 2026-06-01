@@ -45,6 +45,8 @@ Important browser rule:
 
 The current market data integration does not require an API key. It uses CoinGecko public quotes through the Vite proxy configured in `vite.config.ts`.
 
+The current AI-assisted workflow also does not require an API key. It generates local summaries, portfolio notes, and research prompt responses from dashboard state. If a future model-backed provider is added, keep provider calls outside browser-delivered code and document the required secret in `.env.example`.
+
 ## Pull Request Security Checklist
 
 Every pull request should use `.github/pull_request_template.md` and confirm:
