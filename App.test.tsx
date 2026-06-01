@@ -57,6 +57,7 @@ describe('App', () => {
 
   afterEach(() => {
     cleanup();
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -71,5 +72,21 @@ describe('App', () => {
     });
 
     expect(screen.getAllByRole('button', { name: /BTC/ }).length).toBeGreaterThan(0);
+  });
+
+  it('recovers from malformed persisted dashboard state', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    window.localStorage.setItem('terminal-watchlist-v1', '{not-json');
+    window.localStorage.setItem('terminal-portfolio-v1', JSON.stringify([{ assetId: 'unknown', quantity: -1 }]));
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Source: CoinGecko')).toBeTruthy();
+    });
+
+    expect(screen.getAllByRole('button', { name: /BTC/ }).length).toBeGreaterThan(0);
+    expect(screen.getByRole('cell', { name: 'BTC Bitcoin' })).toBeTruthy();
+    expect(warn).toHaveBeenCalled();
   });
 });

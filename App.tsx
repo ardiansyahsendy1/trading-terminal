@@ -28,6 +28,7 @@ import {
   generateMarketSummary,
   generatePortfolioNotes,
 } from './src/lib/aiWorkflow';
+import { validateHoldings, validateWatchlistIds } from './src/lib/storage';
 import {
   DEFAULT_ALERTS,
   DEFAULT_PLUGINS,
@@ -55,20 +56,25 @@ const percent = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-function useLocalStorage<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+function useLocalStorage<T>(
+  key: string,
+  initialValue: T,
+  validateValue: (value: unknown) => T = (value) => value as T,
+): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      return item ? validateValue(JSON.parse(item)) : initialValue;
     } catch (error) {
-      console.error(error);
+      window.localStorage.removeItem(key);
+      console.warn(`Reset invalid local storage value for ${key}`, error);
       return initialValue;
     }
   });
 
   const setValue: React.Dispatch<React.SetStateAction<T>> = (value) => {
     try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      const valueToStore = validateValue(value instanceof Function ? value(storedValue) : value);
       setStoredValue(valueToStore);
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
@@ -129,18 +135,22 @@ const getLastUpdatedLabel = (quotes: AssetQuote[]) => {
   });
 };
 
+const DEFAULT_HOLDINGS: PortfolioHolding[] = [
+  { assetId: 'bitcoin', quantity: 0.18, averageCost: 62000 },
+  { assetId: 'ethereum', quantity: 2.4, averageCost: 1900 },
+  { assetId: 'solana', quantity: 18, averageCost: 75 },
+];
+
 const App = () => {
   const [watchlistIds, setWatchlistIds] = useLocalStorage<string[]>(
     'terminal-watchlist-v1',
     DEFAULT_WATCHLIST_IDS,
+    (value) => validateWatchlistIds(value, ASSET_UNIVERSE, DEFAULT_WATCHLIST_IDS),
   );
   const [holdings, setHoldings] = useLocalStorage<PortfolioHolding[]>(
     'terminal-portfolio-v1',
-    [
-      { assetId: 'bitcoin', quantity: 0.18, averageCost: 62000 },
-      { assetId: 'ethereum', quantity: 2.4, averageCost: 1900 },
-      { assetId: 'solana', quantity: 18, averageCost: 75 },
-    ],
+    DEFAULT_HOLDINGS,
+    (value) => validateHoldings(value, ASSET_UNIVERSE, DEFAULT_HOLDINGS),
   );
   const [selectedAssetId, setSelectedAssetId] = useState(DEFAULT_WATCHLIST_IDS[0]);
   const [quotes, setQuotes] = useState<AssetQuote[]>(FALLBACK_QUOTES);

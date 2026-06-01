@@ -82,6 +82,19 @@ test('updates portfolio holdings from the input form', async ({ page }) => {
   await expect(page.getByRole('cell', { name: '$80.00' })).toBeVisible();
 });
 
+test('recovers from malformed local storage state', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('terminal-watchlist-v1', '{not-json');
+    window.localStorage.setItem('terminal-portfolio-v1', JSON.stringify([{ assetId: 'unknown', quantity: -1 }]));
+  });
+
+  await page.goto('/');
+
+  await expect(page.getByRole('heading', { name: 'Trading Terminal' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /BTC/ }).first()).toBeVisible();
+  await expect(page.getByRole('row', { name: /BTC Bitcoin/ })).toBeVisible();
+});
+
 test('stays within the mobile viewport width', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
