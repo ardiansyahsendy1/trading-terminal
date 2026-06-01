@@ -23,6 +23,14 @@ import {
   buildPortfolioSummary,
   upsertHolding,
 } from './src/lib/portfolio';
+import {
+  DEFAULT_ALERTS,
+  DEFAULT_PLUGINS,
+  type PriceSnapshot,
+  evaluateAlerts,
+  exportResearchReport,
+  runBacktest,
+} from './src/lib/research';
 
 const currency = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -41,11 +49,6 @@ const percent = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
   minimumFractionDigits: 2,
 });
-
-type PriceSnapshot = {
-  time: string;
-  [assetId: string]: string | number;
-};
 
 function useLocalStorage<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -156,6 +159,12 @@ const App = () => {
   const selectedQuote = quoteMap[selectedAssetId] ?? quotes[0];
   const portfolio = useMemo(() => buildPortfolioSummary(holdings, quoteMap), [holdings, quoteMap]);
   const lastUpdated = useMemo(() => getLastUpdatedLabel(quotes), [quotes]);
+  const alertResults = useMemo(() => evaluateAlerts(DEFAULT_ALERTS, quoteMap), [quoteMap]);
+  const strategyResults = useMemo(() => runBacktest(snapshots, selectedAssetId), [selectedAssetId, snapshots]);
+  const researchReport = useMemo(
+    () => exportResearchReport(selectedQuote?.symbol ?? 'Asset', portfolio, alertResults, strategyResults),
+    [alertResults, portfolio, selectedQuote?.symbol, strategyResults],
+  );
 
   const loadMarketData = useCallback(async () => {
     setIsLoading(true);
@@ -529,6 +538,78 @@ const App = () => {
                 <dd className="font-medium text-white">{ASSET_UNIVERSE.length}</dd>
               </div>
             </dl>
+          </section>
+
+          <section className="rounded border border-slate-800 bg-slate-900 p-4">
+            <h2 className="text-lg font-semibold text-white">Alerts</h2>
+            <div className="mt-3 grid gap-2 text-sm">
+              {alertResults.map((alert) => (
+                <div
+                  key={alert.id}
+                  className={`rounded border px-3 py-2 ${
+                    alert.triggered
+                      ? 'border-amber-400/50 bg-amber-400/10 text-amber-100'
+                      : 'border-slate-800 bg-slate-950 text-slate-300'
+                  }`}
+                >
+                  {alert.message}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="rounded border border-slate-800 bg-slate-900 p-4">
+            <h2 className="text-lg font-semibold text-white">Backtesting</h2>
+            <div className="mt-3 grid gap-2 text-sm">
+              {strategyResults.length === 0 ? (
+                <p className="text-slate-400">Collecting price snapshots for strategy comparison.</p>
+              ) : (
+                strategyResults.map((strategy) => (
+                  <div key={strategy.name} className="rounded border border-slate-800 bg-slate-950 px-3 py-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-medium text-white">{strategy.name}</span>
+                      <span className={strategy.returnPct >= 0 ? 'text-emerald-400' : 'text-rose-400'}>
+                        {formatPercent(strategy.returnPct)}
+                      </span>
+                    </div>
+                    <div className="mt-1 text-xs text-slate-500">
+                      {strategy.trades} trades · max drawdown {formatPercent(strategy.maxDrawdownPct)}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </section>
+
+          <section className="rounded border border-slate-800 bg-slate-900 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-white">Research Report</h2>
+              <a
+                download="trading-terminal-report.md"
+                href={`data:text/markdown;charset=utf-8,${encodeURIComponent(researchReport)}`}
+                className="rounded bg-cyan-500 px-3 py-1 text-sm font-medium text-slate-950 hover:bg-cyan-400"
+              >
+                Export
+              </a>
+            </div>
+            <pre className="mt-3 max-h-44 overflow-auto whitespace-pre-wrap rounded border border-slate-800 bg-slate-950 p-3 text-xs text-slate-300">
+              {researchReport}
+            </pre>
+          </section>
+
+          <section className="rounded border border-slate-800 bg-slate-900 p-4">
+            <h2 className="text-lg font-semibold text-white">Plugin Architecture</h2>
+            <div className="mt-3 grid gap-2 text-sm">
+              {DEFAULT_PLUGINS.map((plugin) => (
+                <div key={plugin.id} className="rounded border border-slate-800 bg-slate-950 px-3 py-2">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-medium text-white">{plugin.name}</span>
+                    <span className="text-xs uppercase text-cyan-300">{plugin.kind}</span>
+                  </div>
+                  <p className="mt-1 text-xs text-slate-500">{plugin.description}</p>
+                </div>
+              ))}
+            </div>
           </section>
         </aside>
       </div>

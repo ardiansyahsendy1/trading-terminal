@@ -78,19 +78,19 @@ See [ROADMAP.md](ROADMAP.md) for the public project roadmap and contribution pri
 
 ### Phase 4 - Reliability and Security
 
-- [ ] Add unit tests
-- [ ] Add end-to-end tests
+- [x] Add unit tests
+- [x] Add end-to-end tests
 - [x] Add security review workflow
-- [ ] Add dependency scanning
-- [ ] Add release checklist
+- [x] Add dependency scanning
+- [x] Add release checklist
 
 ### Phase 5 - Advanced Trading Research
 
-- [ ] Add alerting system
-- [ ] Add backtesting module
-- [ ] Add strategy comparison tools
-- [ ] Add exportable reports
-- [ ] Improve developer plugin architecture
+- [x] Add alerting system
+- [x] Add backtesting module
+- [x] Add strategy comparison tools
+- [x] Add exportable reports
+- [x] Improve developer plugin architecture
 
 ## Tech Stack
 
@@ -154,6 +154,10 @@ npm run security:check
 ## Release Checklist
 
 See [docs/release-checklist.md](docs/release-checklist.md) for the local, security, browser, and CI gates to complete before tagging or publishing a release.
+
+## Advanced Research
+
+Phase 5 adds local-only research tools: alert evaluation for price and volatility rules, a baseline backtesting comparison, exportable Markdown reports, and a small plugin registry for future data, analysis, and report adapters.
 
 ## Open Source Goals
 

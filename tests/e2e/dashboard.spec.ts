@@ -53,9 +53,13 @@ test('renders market dashboard with mocked market data', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: 'Trading Terminal' })).toBeVisible();
   await expect(page.getByText('Source: CoinGecko')).toBeVisible();
-  await expect(page.getByText('Portfolio Value')).toBeVisible();
+  await expect(page.locator('.text-xs.uppercase', { hasText: 'Portfolio Value' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Portfolio Tracker' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Asset Watchlist' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Alerts' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Backtesting' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Research Report' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Plugin Architecture' })).toBeVisible();
   await expect(page.getByRole('button', { name: /BTC/ }).first()).toBeVisible();
 
   const chartCount = await page.locator('.recharts-wrapper').count();

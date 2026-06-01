@@ -63,11 +63,18 @@ Implementation notes:
 
 Goal: support deeper experimentation without turning the project into financial advice.
 
-- [ ] Add alerting for price levels and volatility changes
-- [ ] Add a backtesting module for historical scenarios
-- [ ] Add strategy comparison tools
-- [ ] Add exportable research reports
-- [ ] Improve plugin architecture for custom data providers and analysis tools
+- [x] Add alerting for price levels and volatility changes
+- [x] Add a backtesting module for historical scenarios
+- [x] Add strategy comparison tools
+- [x] Add exportable research reports
+- [x] Improve plugin architecture for custom data providers and analysis tools
+
+Implementation notes:
+
+- Alerts evaluate current quote levels and 24-hour movement against local rules.
+- Backtesting compares buy-and-hold against a baseline momentum flip strategy from collected price snapshots.
+- Reports export a Markdown summary of selected asset, portfolio state, alerts, and strategy comparison.
+- The plugin registry defines initial data, analysis, and report extension points without loading third-party code.
 
 ## Contribution Priorities
 
